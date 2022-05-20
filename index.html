@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chipotle Burrito Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./dist/app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app">
+        <div class="wrapper">
+            <div class="container">
+                <div class="row hero-row">
+                    <div class="col-md-6"> 
+                        <div class="build-hero-image">
+                            <img src="./assets/img/order.png" alt="" srcset="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="build-hero-text">
+                            <p>BUILD YOUR</p>
+                            <h1>BURRITO</h1>
+                            <p>Your choice of freshly grilled meat or sofritas wrapped in a warm flour tortilla with rice, beans, or fajita veggies, and topped with guac, salsa, queso blanco, sour cream or cheese.</p>
+                        </div>
+                      
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <img src="" alt="" sizes="" srcset="">
+        <div v-for="main in ingredients">  
+        <div class="container">
+        
+             
+               
+
+            <div class="topping-header">
+                <h2>{{main.title}}</h2>
+                <p>{{main.subtitle}}</p>
+            </div>
+          
+            <div class="row">
+
+                
+                <div class="col-md-6" v-for="protienVeggies in ingredients[main.index].proteinVeggie">
+
+                        <div @click="activeProtein(protienVeggies.index,main.index,protienVeggies.ingredient)" 
+                            class="ingredientBox" 
+                            v-if="protienVeggies.ingredient !== 'DOUBLE YOUR PROTEIN'"
+                           :class="[ isSelected(protienVeggies.index,) ?'active-box':'not-active-box' ]">
+                            <div v-if="protienVeggies.img !==''">
+                                <img :src="protienVeggies.img" alt="">
+                            </div>
+                            <div   class="doubleOptions" v-if="protienVeggies.showDouble">
+                                    <div class="normal">
+                                        <p>normal</p>
+                                    </div>
+                                    <div class="double" @click.stop="activateDouble(protienVeggies.index,main.index)">
+                                       <p> Double +${{protienVeggies.doublePrice}}</p>
+                                    </div>
+                                    <div class="close" >
+                                        <svg    @click.stop="showDouble(protienVeggies.index,main.index)"  width="30" height="30" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0.633633 4.30289C0.445806 4.10047 0.45764 3.78411 0.660064 3.59628L3.95876 0.535464C4.16119 0.347637 4.47755 0.359471 4.66538 0.561895C4.8532 0.76432 4.84137 1.08068 4.63894 1.26851L1.70677 3.98923L4.42749 6.92141C4.61532 7.12383 4.60348 7.44019 4.40106 7.62802C4.19864 7.81585 3.88227 7.80401 3.69445 7.60159L0.633633 4.30289ZM1.98128 4.49985L0.981465 4.46245L1.01884 3.46315L2.01866 3.50055L1.98128 4.49985Z" fill="black"/>
+                                            </svg>
+                                            
+                                    </div>
+
+                            </div>
+                             
+                               <p class="twofillings" v-if="protienVeggies.index == indexProteinFlash && showProteinFlash == true && main.index == 0 " >
+                                      You can only select 2 fillings
+                               </p>
+                               <div v-if="isSelected(protienVeggies.index,main.index) && isSelectedCountOne(main.index)">
+                                <svg  class="circle-half" width="50" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="45" cy="45" r="41.5" fill="#B68207" stroke="white" stroke-width="7"/>
+                                    <path d="M58.1934 25L62.2547 27.2875L42.003 63.2439L37.9417 60.9564L58.1934 25Z" fill="white"/>
+                                    <path d="M44.0116 58.3179L41.4004 62.9172L28 55.3093L30.6111 50.7101L44.0116 58.3179Z" fill="white"/>
+                                    </svg>
+                               </div>
+                               <div v-if="isSelected(protienVeggies.index,main.index) && isSelectedCountTwo(main.index) ">
+
+                                <svg  class="circle-half" width="50" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="45" cy="45" r="41.5" fill="#B68207" stroke="white" stroke-width="7"/>
+                                    <path d="M49.6123 25L52.898 26.0405L42.2858 59.5519L39 58.5113L49.6123 25Z" fill="white"/>
+                                    <path d="M20.3516 53.3086H26.2305V36.4336C26.2305 35.7826 26.25 35.099 26.2891 34.3828L22.1289 37.8594C21.9466 38.0026 21.7643 38.1003 21.582 38.1523C21.4128 38.2044 21.237 38.2305 21.0547 38.2305C20.7943 38.2305 20.5534 38.1784 20.332 38.0742C20.1107 37.957 19.9479 37.8268 19.8438 37.6836L18.2812 35.5352L27.1094 28.0352H31.1523V53.3086H36.3672V57H20.3516V53.3086Z" fill="white"/>
+                                    <path d="M63.0312 27.7617C64.3724 27.7617 65.5964 27.957 66.7031 28.3477C67.8099 28.7383 68.7539 29.2982 69.5352 30.0273C70.3294 30.7435 70.9414 31.6094 71.3711 32.625C71.8138 33.6406 72.0352 34.7669 72.0352 36.0039C72.0352 37.0716 71.8789 38.0612 71.5664 38.9727C71.2539 39.8711 70.8307 40.737 70.2969 41.5703C69.776 42.3906 69.1641 43.1914 68.4609 43.9727C67.7578 44.7409 67.0156 45.5221 66.2344 46.3164L59.7109 52.9766C60.362 52.7943 60.9935 52.651 61.6055 52.5469C62.2174 52.4427 62.8034 52.3906 63.3633 52.3906H70.7852C71.319 52.3906 71.7422 52.5469 72.0547 52.8594C72.3672 53.1589 72.5234 53.5495 72.5234 54.0312V57H52.6797V55.3594C52.6797 55.0208 52.7513 54.6758 52.8945 54.3242C53.0378 53.9596 53.2591 53.6276 53.5586 53.3281L62.3477 44.5195C63.0768 43.7773 63.7279 43.0677 64.3008 42.3906C64.8867 41.7005 65.375 41.0234 65.7656 40.3594C66.1562 39.6953 66.4557 39.0182 66.6641 38.3281C66.8724 37.638 66.9766 36.9154 66.9766 36.1602C66.9766 35.4701 66.8724 34.8646 66.6641 34.3438C66.4688 33.8099 66.1823 33.3672 65.8047 33.0156C65.4401 32.651 64.9974 32.3776 64.4766 32.1953C63.9688 32.013 63.3958 31.9219 62.7578 31.9219C61.5729 31.9219 60.5964 32.2214 59.8281 32.8203C59.0599 33.4193 58.526 34.2266 58.2266 35.2422C58.0703 35.75 57.8424 36.1146 57.543 36.3359C57.2565 36.5573 56.8919 36.668 56.4492 36.668C56.2409 36.668 56.0195 36.6484 55.7852 36.6094L53.1875 36.1406C53.3828 34.7474 53.7669 33.5299 54.3398 32.4883C54.9128 31.4466 55.6289 30.5742 56.4883 29.8711C57.3477 29.168 58.3307 28.6406 59.4375 28.2891C60.5573 27.9375 61.7552 27.7617 63.0312 27.7617Z" fill="white"/>
+                                </svg>
+                             
+                                    
+                             </div>
+                            <div class="innerIngredientContent">
+                                <h1>{{protienVeggies.ingredient}}</h1>
+                               
+                                <div class="price-cal">
+                                    <p v-if="protienVeggies.price !=='' ">${{protienVeggies.price}}</p>
+                                    <p>{{protienVeggies.cal}}</p>
+                                </div>
+                            </div>
+                            <svg    @click.stop="showDouble(protienVeggies.index,main.index)" v-if="main.index == 0" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+                                <path fill="#C3B4A6" fill-rule="evenodd" d="M22.5 12.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm0 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm0 7a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+                            </svg>
+                        </div>
+                        <div v-else-if="selectedProtein.length >= 1">
+                                <div class="double-box">
+                                    <div class="svg-box" v-if="doubleProtein == true">
+                                        <svg @click.stop="activateDouble('YES',main.index)"  width="50" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="45" cy="45" r="41.5" fill="#B68207" stroke="white" stroke-width="7"/>
+                                            <path d="M58.1934 25L62.2547 27.2875L42.003 63.2439L37.9417 60.9564L58.1934 25Z" fill="white"/>
+                                            <path d="M44.0116 58.3179L41.4004 62.9172L28 55.3093L30.6111 50.7101L44.0116 58.3179Z" fill="white"/>
+                                        </svg>
+                                    </div>
+                                    <div  class="svg-box" v-else>
+                                     
+                                    <svg @click.stop="activateDouble('YES',main.index)"width="50" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="45" cy="45" r="44.5" stroke="#D4CBC7"/>
+                                        </svg>
+                                        
+                                            
+                                    </div>
+                                
+                                    <div class="content">
+                                        <h1>Double Your Protein</h1>
+                                        <div class="price">
+                                        
+                                           
+                                                {{showHigherPrice(0)}}
+                                            
+                                            <div v-for="selectedProteins in selectedProtein">
+                                                <!-- {{selectedProteins}} -->
+                                                {{getDouble(selectedProteins,0)}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                   
+                                </div>
+                               
+                        </div>
+                       
+                </div>
+             
+            </div>
+            </div>
+        </div>
+
+        
+    </div>
+   
+
+    <script src="https://unpkg.com/vue@3.2.33/dist/vue.global.prod.js"></script>
+    <script src="./dist/app.js"></script>
+</body>
+</html>
